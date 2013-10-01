@@ -7,6 +7,7 @@ require "./lib/netzke_redis_persistence/version"
 Gem::Specification.new do |s|
   s.name        = "netzke-redis-persistence"
   s.version     = NetzkeRedisPersistence::VERSION
+  s.license     = 'MIT'
   s.authors     = ["firemind"]
   s.email       = ["mike@otep.ch"]
   s.homepage    = "https://github.com/firemind/netzke-redis-persistence"
