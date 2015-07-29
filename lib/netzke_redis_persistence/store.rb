@@ -15,7 +15,7 @@ module NetzkeRedisPersistence
     def [](key)
       v = redis.get(scoped_key(key))
       begin
-      v && Marshal.load(v)
+        v && Marshal.load(v)
       rescue => e
         r = e.message.match(/undefined class\/module (.*)/)
         if r[1]
@@ -26,15 +26,20 @@ module NetzkeRedisPersistence
     end
 
     def delete(key)
+      @redis.del key
     end
 
     def clear
+      keys = @redis.keys "#{session_key}*"
+      keys.each do |key|
+        self.delete key
+      end
     end
 
     def scoped_key(key)
       "#{session_key}_#{key}"
     end
-    
+
     def session_key
       "netzke_states_#{@custom_key}"
     end
