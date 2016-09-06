@@ -19,7 +19,11 @@ Netzke::Core::State.module_eval do
   # * delete(key)
   # * clear
   def state
-    NetzkeRedisPersistence::Store.new("#{persistence_key}_#{Netzke::Base.controller.current_user.id if Netzke::Base.controller && Netzke::Base.controller.current_user}")
+    key = [persistence_key]
+    if Netzke::Base.controller && Netzke::Base.controller.respond_to?(:current_user) && Netzke::Base.controller.current_user
+      key << Netzke::Base.controller.current_user.id
+    end
+    NetzkeRedisPersistence::Store.new(key.join('_'))
     #session[:netzke_states] ||= {}
     #session[:netzke_states][persistence_key] ||= {}
   end
