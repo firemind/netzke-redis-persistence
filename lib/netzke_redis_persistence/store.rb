@@ -3,7 +3,7 @@ module NetzkeRedisPersistence
     attr_accessor :redis, :custom_key
 
     def initialize(custom_key)
-      @redis = Redis.new
+      @redis = NetzkeRedisPersistence.configuration.redis_connection
       @custom_key = custom_key
     end
 
