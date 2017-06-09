@@ -3,8 +3,8 @@ module NetzkeRedisPersistence
   class Configuration
     attr_accessor :redis_connection
 
-    def initialize
-      @redis_connection = Redis.new
+    def get_redis_connection
+      @redis_connection ? @redis_connection.call : Redis.new
     end
   end
 end
