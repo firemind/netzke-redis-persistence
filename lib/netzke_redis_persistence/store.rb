@@ -8,6 +8,7 @@ module NetzkeRedisPersistence
     end
 
     def []=(key, val)
+      Rails.logger.info "netzke-redis-persitence: Writing key #{scoped_key(key)} on #{redis.inspect} => #{val.inspect}"
       val = Marshal.dump(val)
       redis.set(scoped_key(key), val)
     end
@@ -15,7 +16,9 @@ module NetzkeRedisPersistence
     def [](key)
       v = redis.get(scoped_key(key))
       begin
-        v && Marshal.load(v)
+        res = v && Marshal.load(v)
+        Rails.logger.info "netzke-redis-persitence: Reading key #{scoped_key(key)} on #{redis.inspect} => #{res}"
+        res
       rescue => e
         r = e.message.match(/undefined class\/module (.*)/)
         if r[1]

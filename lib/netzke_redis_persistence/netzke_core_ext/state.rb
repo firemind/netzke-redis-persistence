@@ -18,7 +18,16 @@ Netzke::Core::State.module_eval do
   # * []=
   # * delete(key)
   # * clear
+
   def state
+    state_by_key(persistence_key)
+  end
+
+  def child_state(name)
+    state_by_key([js_id, name].join("__"))
+  end
+
+  def state_by_key(cmp_key)
     key = []
     if scope = NetzkeRedisPersistence.configuration.get_scope
       key << scope
@@ -27,8 +36,7 @@ Netzke::Core::State.module_eval do
     if Netzke::Base.controller && Netzke::Base.controller.respond_to?(:current_user) && Netzke::Base.controller.current_user
       key << Netzke::Base.controller.current_user.id
     end
-    NetzkeRedisPersistence::Store.new(key.join('_'))
-    #session[:netzke_states] ||= {}
-    #session[:netzke_states][persistence_key] ||= {}
+    @store_cache ||={}
+    @store_cache[key.join('_')] ||= NetzkeRedisPersistence::Store.new(key.join('_'))
   end
 end
