@@ -32,7 +32,7 @@ Netzke::Core::State.module_eval do
     if scope = NetzkeRedisPersistence.configuration.get_scope
       key << scope
     end
-    key << persistence_key
+    key << cmp_key
     if Netzke::Base.controller && Netzke::Base.controller.respond_to?(:current_user) && Netzke::Base.controller.current_user
       key << Netzke::Base.controller.current_user.id
     end
