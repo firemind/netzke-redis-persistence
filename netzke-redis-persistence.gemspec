@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
 
 #  s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "netzke-core", "> 0.8.0"
-  s.add_dependency "redis", "~> 3.3.3"
+  s.add_dependency "redis", ">= 3.3", "< 5"
 
 end
